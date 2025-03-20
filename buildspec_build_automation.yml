@@ -10,7 +10,7 @@ phases:
       - export REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/cicd
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $REPOSITORY_URI
       - export IMAGE_TAG=latest  # Change dynamically if needed
-      - export CONTAINER_NAME=cicd-container  # Change as per ECS task definition
+      - export CONTAINER_NAME=NodeAppContainer  # Change as per ECS task definition
 
   build:
     commands:
