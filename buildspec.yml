@@ -6,20 +6,19 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/k6e0f9i7
-      - REPOSITORY_URI=490004643085.dkr.ecr.us-east-1.amazonaws.com/codebuild
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 490004643085.dkr.ecr.ap-south-1.amazonaws.com
+      - REPOSITORY_URI=490004643085.dkr.ecr.us-east-1.amazonaws.com/cicd
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...          
-      - docker build -t codebuild .
-      - docker tag codebuild:latest public.ecr.aws/k6e0f9i7/codebuild:latest      
+      - docker build -t cicd .
+      - docker tag cicd:latest 490004643085.dkr.ecr.ap-south-1.amazonaws.com/cicd:latest      
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push public.ecr.aws/k6e0f9i7/codebuild:latest
+      - docker push 490004643085.dkr.ecr.ap-south-1.amazonaws.com/cicd:latest
       - echo Writing image definitions file...
-      - printf '[{"name":"%s","imageUri":"%s"}]' $CONTAINER_NAME $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 artifacts:
-    files: imagedefinitions.json
+    files: */
